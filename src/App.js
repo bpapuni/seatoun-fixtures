@@ -29,21 +29,11 @@ function App() {
   //   "Women's Capital 3"
   // ]
 
-  const body = {
-    "from": "2023-01-21T21:22:00.284Z",
-    "to": "2023-09-21T21:22:00.284Z"
-    // "from": lastMonday.toISOString(),
-    // "to": thisSunday.toISOString()
-  };
+  const from = "2023-01-21T21:22:00.284Z";
+  const to = "2023-09-21T21:22:00.284Z";
 
   useEffect(() => {
-    fetch("/api", {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
+    fetch(`/api/v1/fixtures/${from}/${to}`)
     .then (res => res.json())
     .then(data => {
       setBackendData(data)

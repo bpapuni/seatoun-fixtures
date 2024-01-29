@@ -2,9 +2,12 @@ const express = require('express')
 const app = express()
 
 app.use(express.json())
-app.post("/api", async (req, res) => {
+app.get("/api/v1/fixtures/:from/:to", async (req, res) => {
+    const from = req.params.from;
+    const to = req.params.to;
+
     try {
-        const fixtures = await fetchAndOrganizeFixtures(req.body.from, req.body.to);
+        const fixtures = await fetchAndOrganizeFixtures(from, to);
         res.json(fixtures);
     } catch (error) {
         console.error(error);
