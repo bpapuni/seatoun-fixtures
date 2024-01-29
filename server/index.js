@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 
-app.use(express.json())
+// app.use(express.json())
 app.get("/api/v1/fixtures/:from/:to", async (req, res) => {
     const from = req.params.from;
     const to = req.params.to;
@@ -107,3 +107,5 @@ function getKeyByValue(object, value) {
 app.listen(3001, () => {
     console.log("Server started on port 3001")
 })
+
+module.exports = app
