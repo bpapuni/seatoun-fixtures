@@ -1,38 +1,87 @@
-.App {
-  text-align: center;
+#root {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.comp-accordion {
+    padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.team-select {
+    width: 100%;
+    margin: 0.5rem 0;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 2px #00000011;
+    background-color: white;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.team-select > h4 {
+    margin: 0;
 }
 
-.App-link {
-  color: #61dafb;
+.comp {
+    margin-bottom: 2rem;
+    /* background-color: white; */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.fixture {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    /* border: 1px solid #999; */
+    border-radius: 1rem;
+    box-shadow: 0 2px 2px #00000011;
+    background-color: white;
+}
+
+.fixture > .teams {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 1;
+    padding-right: 0.5rem;
+    border-right: 1px solid black;
+}
+
+.fixture > .teams > span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.fixture > .teams > span > .logo {
+    min-width: 3rem;
+    height: 1.2rem;
+    object-fit: contain;
+    /* margin: 0; */
+}
+
+.fixture > .teams > span > p {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+    margin: 0.25rem;
+    text-wrap: none;
+    text-overflow: ellipsis;
+}
+
+.fixture > .date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 6rem;
+    height: 100%;
+    padding: 0.5rem;
+}
+
+.fixture > .date > p {
+    margin: 0;
 }

@@ -1,25 +1,70 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import Competition from './components/Competition';
 import './App.css';
+// import TeamSelect from './components/TeamSelect';
+import {Accordion, AccordionItem} from "@nextui-org/react";
 
 function App() {
+  const [backendData, setBackendData] = useState([{}])
+
+  const currentDate = new Date();
+  const dayOfWeek = currentDate.getDay();
+  const daysUntilLastMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+  const daysUntilThisSunday = dayOfWeek === 0 ? dayOfWeek : 7 - dayOfWeek;
+  const lastMonday = new Date(currentDate);
+  lastMonday.setDate(currentDate.getDate() - daysUntilLastMonday);
+  const thisSunday = new Date(currentDate);
+  thisSunday.setDate(currentDate.getDate() + daysUntilThisSunday);
+
+  // const comps = [
+  //   "Men's Capital Premier",
+  //   "Men's Capital 2",
+  //   "Wellington 1",
+  //   "Masters 2",
+  //   "Masters 4",
+  //   "Masters Over 45's - Top 8",
+  //   "Masters Over 45's - Bottom 4",
+  //   "Women's Central League",
+  //   "Women's Capital 1",
+  //   "Women's Capital 3"
+  // ]
+
+  const body = {
+    "from": "2023-01-21T21:22:00.284Z",
+    "to": "2023-09-21T21:22:00.284Z"
+    // "from": lastMonday.toISOString(),
+    // "to": thisSunday.toISOString()
+  };
+
+  useEffect(() => {
+    fetch("/api", {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then (res => res.json())
+    .then(data => {
+      setBackendData(data)
+    })
+  }, [])
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <Accordion className="comp-accordion" selectionMode="multiple">
+        {backendData.map(competitions => (
+          Object.entries(competitions).map(([compName, fixtures]) => (
+            <AccordionItem aria-label="" title={compName}>
+              <Competition compName={compName} fixtures={fixtures} />
+            </AccordionItem>
+          ))
+        ))}
+      </Accordion>
+      
+    </>
+  )
 }
 
-export default App;
+export default App
