@@ -66,15 +66,19 @@ function App() {
     }
   };
 
+  // useEffect(() => {
+  //   alert("Set");
+  // }, [dataCache["Masters 2"]])
+
   return (
     <>
       <Accordion className="comp-accordion" selectionMode="multiple">
         {comps.map((compName, i) => (
-          <AccordionItem key={i} onPress={handleAccordionClick} title={compName}>
-            {dataCache[compName] !== undefined ? (
+          <AccordionItem key={i} onClick={handleAccordionClick} title={compName}>
+            {dataCache[compName] ? (
               <Competition compName={compName} fixtures={dataCache[compName]} />
             ) : (
-              <Spinner className="loading"/>
+              <Spinner />
             )}
           </AccordionItem>
         ))}

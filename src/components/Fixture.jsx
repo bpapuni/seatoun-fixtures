@@ -4,14 +4,14 @@ const Fixture = ({ match, i }) => {
             <div key={i} className="fixture">
                 <div className="teams">
                     <span>
-                        <img className="logo" src={"http:" + match.homeLogo} alt={match.homeTeam + "'s Logo"} />
+                        <img className="logo" src={"https:" + match.homeLogo} alt={match.homeTeam + "'s Logo"} />
                         <p>
                             {match.homeTeam}
                             <strong>{match.homeScore}</strong>
                         </p>
                     </span>
                     <span>
-                        <img className="logo" src={"http:" + match.awayLogo} alt={match.awayTeam + "'s Logo"} />
+                        <img className="logo" src={"https:" + match.awayLogo} alt={match.awayTeam + "'s Logo"} />
                         <p>
                             {match.awayTeam}
                             <strong>{match.awayScore}</strong>

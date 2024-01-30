@@ -1,7 +1,8 @@
-const express = require('express')
+const express = require('express');
+const cors = require('cors');
 const app = express()
 
-// app.use(express.json())
+app.use(cors());
 app.get("/api/v1/fixtures", async (req, res) => {
     const comp = req.query.comp;
     const from = req.query.from;
@@ -51,7 +52,7 @@ async function fetchAndOrganizeFixtures(comp, from, to) {
         "gradeIds": "SENIORS",
     };
 
-    console.log(body);
+    // console.log(body);
 
     const fixtures = await fetch("https://www.capitalfootball.org.nz/api/1.0/competition/cometwidget/filteredfixtures", {
         headers: {
