@@ -2,12 +2,13 @@ const express = require('express')
 const app = express()
 
 // app.use(express.json())
-app.get("/api/v1/fixtures/:from/:to", async (req, res) => {
-    const from = req.params.from;
-    const to = req.params.to;
+app.get("/api/v1/fixtures", async (req, res) => {
+    const comp = req.query.comp;
+    const from = req.query.from;
+    const to = req.query.to;
 
     try {
-        const fixtures = await fetchAndOrganizeFixtures(from, to);
+        const fixtures = await fetchAndOrganizeFixtures(comp, from, to);
         res.json(fixtures);
     } catch (error) {
         console.error(error);
@@ -15,10 +16,7 @@ app.get("/api/v1/fixtures/:from/:to", async (req, res) => {
     }
 });
 
-async function fetchAndOrganizeFixtures(from, to) {
-    const fixtures = [];
-    const fixtureRequests = [];
-
+async function fetchAndOrganizeFixtures(comp, from, to) {
     const competitionIds = {
         "Kate Sheppard Cup": 2630433561,                // Seatoun Association Football Club
         "Kelly Cup": 2600922677,                        // Seatoun Association Football Club
@@ -34,64 +32,59 @@ async function fetchAndOrganizeFixtures(from, to) {
         "Women's Central League": 2617950277,           // Seatoun Association Football Club
     }
 
-    const teamComps = {
-        45282: [ competitionIds["Masters 4"] ],
-        45289: [ competitionIds["Masters 2"], competitionIds["Masters Over 45's - Top 8"], competitionIds["Masters Over 45's - Bottom 4"], 
-                 competitionIds["Men's Capital Premier"], competitionIds["Men's Capital 2"], competitionIds["Women's Capital 1"], competitionIds["Women's Capital 3"],
-                 competitionIds["Kate Sheppard Cup"], competitionIds["Kelly Cup"], competitionIds["Women's Central League"] ]
-    }
+    // const teamComps = {
+    //     45282: [ competitionIds["Masters 4"] ],
+    //     45289: [ competitionIds["Masters 2"], competitionIds["Masters Over 45's - Top 8"], competitionIds["Masters Over 45's - Bottom 4"], 
+    //              competitionIds["Men's Capital Premier"], competitionIds["Men's Capital 2"], competitionIds["Women's Capital 1"], competitionIds["Women's Capital 3"],
+    //              competitionIds["Kate Sheppard Cup"], competitionIds["Kelly Cup"], competitionIds["Women's Central League"] ]
+    // }
 
-    for (const teamId in teamComps) {
-        for (const compId of teamComps[teamId]) {
-            const body = {
-                "competitionId": compId,
-                "orgIds": teamId,
-                "from": from,
-                "to": to,
-                // "from": "2022-08-03T00:00:00.000Z",
-                // "to": "2023-08-18T00:00:00.000Z",
-                "sportId": "1",
-                "seasonId": "2023",
-                "gradeIds": "SENIORS",
-            };
+    const body = {
+        "competitionId": competitionIds[comp],
+        "orgIds": comp === "Masters 4" ? 45282 : 45289,
+        "from": from,
+        "to": to,
+        // "from": "2022-08-03T00:00:00.000Z",
+        // "to": "2023-08-18T00:00:00.000Z",
+        "sportId": "1",
+        "seasonId": "2023",
+        "gradeIds": "SENIORS",
+    };
 
-            const getFixtures = fetch("https://www.capitalfootball.org.nz/api/1.0/competition/cometwidget/filteredfixtures", {
-                headers: {
-                    "content-type": "application/json; charset=UTF-8",
-                },
-                method: "POST",
-                body: JSON.stringify(body),
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.fixtures.length > 0) {
-                    const matches = [];
-                    for (let i = data.fixtures.length - 1; i >= data.fixtures.length - 5; i--) {
-                        console.log(data.fixtures[i] === 'undefined')
-                        console.log(data.fixtures[i])
-                        matches.push({
-                            "homeTeam": data.fixtures[i].HomeTeamNameAbbr,
-                            "awayTeam": data.fixtures[i].AwayTeamNameAbbr,
-                            "fixtureDate": new Date(data.fixtures[i].Date),
-                            "venue": data.fixtures[i].VenueName,
-                            "homeScore": data.fixtures[i].HomeScore,
-                            "awayScore": data.fixtures[i].AwayScore,
-                            "homeLogo": data.fixtures[i].HomeOrgLogo,
-                            "awayLogo": data.fixtures[i].AwayOrgLogo
-                        });
-                    }
-                    fixtures.push({ [getKeyByValue(competitionIds, compId)]: matches });
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
+    console.log(body);
 
-            fixtureRequests.push(getFixtures);
+    const fixtures = await fetch("https://www.capitalfootball.org.nz/api/1.0/competition/cometwidget/filteredfixtures", {
+        headers: {
+            "content-type": "application/json; charset=UTF-8",
+        },
+        method: "POST",
+        body: JSON.stringify(body),
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.fixtures.length > 0) {
+            const matches = [];
+            for (let i = data.fixtures.length - 1; i >= data.fixtures.length - 5; i--) {
+                if (data.fixtures[i] == null) { break; }
+                matches.push({
+                    "homeTeam": data.fixtures[i].HomeTeamNameAbbr,
+                    "awayTeam": data.fixtures[i].AwayTeamNameAbbr,
+                    "fixtureDate": new Date(data.fixtures[i].Date),
+                    "venue": data.fixtures[i].VenueName,
+                    "homeScore": data.fixtures[i].HomeScore,
+                    "awayScore": data.fixtures[i].AwayScore,
+                    "homeLogo": data.fixtures[i].HomeOrgLogo,
+                    "awayLogo": data.fixtures[i].AwayOrgLogo
+                });
+            }
+            
+            return matches;
         }
-    }
+    })
+    .catch(error => {
+        console.error(error);
+    });
 
-    await Promise.all(fixtureRequests);
     return fixtures;
 }
 

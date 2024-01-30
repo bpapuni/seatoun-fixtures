@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Competition from './components/Competition';
 import './App.css';
 // import TeamSelect from './components/TeamSelect';
-import {Accordion, AccordionItem} from "@nextui-org/react";
+import {Accordion, AccordionItem, Spinner} from "@nextui-org/react";
 
 function App() {
-  const [backendData, setBackendData] = useState([{}])
-
   const currentDate = new Date();
   const dayOfWeek = currentDate.getDay();
   const daysUntilLastMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
@@ -16,40 +14,69 @@ function App() {
   const thisSunday = new Date(currentDate);
   thisSunday.setDate(currentDate.getDate() + daysUntilThisSunday);
 
-  // const comps = [
-  //   "Men's Capital Premier",
-  //   "Men's Capital 2",
-  //   "Wellington 1",
-  //   "Masters 2",
-  //   "Masters 4",
-  //   "Masters Over 45's - Top 8",
-  //   "Masters Over 45's - Bottom 4",
-  //   "Women's Central League",
-  //   "Women's Capital 1",
-  //   "Women's Capital 3"
-  // ]
+  const comps = [
+    "Masters 2",
+    "Masters 4",
+    "Masters Over 45's - Bottom 4",
+    "Masters Over 45's - Top 8",
+    "Men's Capital Premier",
+    "Men's Capital 2",
+    "Wellington 1",
+    "Women's Capital 1",
+    "Women's Capital 3",
+    "Women's Central League",
+  ]
 
   const from = "2023-01-21T21:22:00.284Z";
   const to = "2023-09-21T21:22:00.284Z";
+  
+  const [dataCache, setDataCache] = useState({});
 
-  useEffect(() => {
-    fetch(`/api/v1/fixtures/${from}/${to}`)
-    .then (res => res.json())
-    .then(data => {
-      setBackendData(data)
-    })
-  }, [])
+  const fetchData = async (comp) => {
+    try {
+      const params = {
+        comp: comp,
+        from: from,
+        to: to
+      };
+      
+      const url = "/api/v1/fixtures?";
+      const query = Object.entries(params)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&');
 
+      const response = await fetch(url+query);
+      const data = await response.json();
+      
+      setDataCache((prevCache) => ({...prevCache, [comp]: data}));
+      
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
+    }
+  };
+
+  const handleAccordionClick = async (comp) => {
+    const compOpen = comp.target.dataset.open === "true";
+    
+    if (!compOpen) { return }
+
+    if (!dataCache[comp.target.innerText]) {
+      await fetchData(comp.target.innerText);
+    }
+  };
 
   return (
     <>
       <Accordion className="comp-accordion" selectionMode="multiple">
-        {backendData.map(competitions => (
-          Object.entries(competitions).map(([compName, fixtures]) => (
-            <AccordionItem aria-label="" title={compName}>
-              <Competition compName={compName} fixtures={fixtures} />
-            </AccordionItem>
-          ))
+        {comps.map((compName, i) => (
+          <AccordionItem key={i} onPress={handleAccordionClick} title={compName}>
+            {dataCache[compName] !== undefined ? (
+              <Competition compName={compName} fixtures={dataCache[compName]} />
+            ) : (
+              <Spinner className="loading"/>
+            )}
+          </AccordionItem>
         ))}
       </Accordion>
       
