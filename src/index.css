@@ -29,7 +29,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100dvh;
   margin: 0;
-  padding: 1rem;
+  /* padding: 1rem; */
   background: #f8f8fa;
 }
 

@@ -1,10 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { useRef } from 'react'
 import Competition from './components/Competition';
+import Month from './components/Month';
 import './App.css';
 // import TeamSelect from './components/TeamSelect';
 import {Accordion, AccordionItem, Spinner} from "@nextui-org/react";
+import {Button, ButtonGroup} from "@nextui-org/react";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownSection,
+  DropdownItem
+} from "@nextui-org/react";
 
 function App() {
+  const myRef = useRef(null);
   const currentDate = new Date();
   const dayOfWeek = currentDate.getDay();
   const daysUntilLastMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
@@ -27,8 +38,9 @@ function App() {
     "Women's Central League",
   ]
 
-  const from = "2023-01-21T21:22:00.284Z";
-  const to = "2023-09-21T21:22:00.284Z";
+  const from = "2023-08-01T00:00:00.000Z";
+  const to = "2023-08-31T23:59:59.999Z";
+  const date = new Date(from).toLocaleString("en-NZ", { month: "long", year: "numeric" });
   
   const [dataCache, setDataCache] = useState({});
 
@@ -72,13 +84,30 @@ function App() {
 
   return (
     <>
+      <div className="banner">
+        <div className="banner-bg">
+          <img src="/banner-bg.png" />
+        </div>
+        <img className="banner-logo" src="/seatoun-logo.png" />
+      </div>
+          <Month date={date} ref={myRef} />
+      {/* <Dropdown>
+        <DropdownTrigger>
+        </DropdownTrigger>
+        <DropdownMenu aria-label="Static Actions">
+          <DropdownItem key="new">New file</DropdownItem>
+          <DropdownItem key="copy">Copy link</DropdownItem>
+          <DropdownItem key="edit">Edit file</DropdownItem>
+        </DropdownMenu>
+      </Dropdown> */}
+      
       <Accordion className="comp-accordion" selectionMode="multiple">
         {comps.map((compName, i) => (
           <AccordionItem key={i} onClick={handleAccordionClick} title={compName}>
             {dataCache[compName] ? (
               <Competition compName={compName} fixtures={dataCache[compName]} />
             ) : (
-              <Spinner />
+              <Spinner className="w-full mb-5" />
             )}
           </AccordionItem>
         ))}
