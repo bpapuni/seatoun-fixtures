@@ -30,7 +30,8 @@ async function fetchAndOrganizeFixtures(comp, from, to) {
         "Wellington 1": 2695087789,                     // Seatoun AFC Thirds
         "Women's Capital 1": 2695317873,                // Seatoun AFC Women Shanties
         "Women's Capital 3": 2695320403,                // Seatoun AFC Women Seagals
-        "Women's Central League": 2617950277,           // Seatoun Association Football Club
+        // "Women's Central League": 2617950277,           // Seatoun Association Football Club
+        "Women's Central League": 2700992533,           // Seatoun Association Football Club
     }
 
     // const teamComps = {
@@ -45,10 +46,10 @@ async function fetchAndOrganizeFixtures(comp, from, to) {
         "orgIds": comp === "Masters 4" ? 45282 : 45289,
         "from": from,
         "to": to,
-        // "from": "2022-08-03T00:00:00.000Z",
-        // "to": "2023-08-18T00:00:00.000Z",
+        // "from": "2024-04-01T00:00:00.000Z",
+        // "to": "2024-05-01T00:00:00.000Z",
         "sportId": "1",
-        "seasonId": "2023",
+        "seasonId": "2024",
         "gradeIds": "SENIORS",
     };
 
