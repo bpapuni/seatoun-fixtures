@@ -71,7 +71,7 @@ async function fetchAndOrganizeFixtures(comp, from, to) {
                 matches.push({
                     "homeTeam": data.fixtures[i].HomeTeamNameAbbr,
                     "awayTeam": data.fixtures[i].AwayTeamNameAbbr,
-                    "fixtureDate": new Date(data.fixtures[i].Date),
+                    "fixtureDate": data.fixtures[i].Date,
                     "venue": data.fixtures[i].VenueName,
                     "homeScore": data.fixtures[i].HomeScore,
                     "awayScore": data.fixtures[i].AwayScore,
