@@ -1,30 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useRef } from 'react'
+import React, { useState } from 'react';
 import Competition from './components/Competition';
-import Month from './components/Month';
+import Year from './components/Year';
 import './App.css';
-// import TeamSelect from './components/TeamSelect';
 import {Accordion, AccordionItem, Spinner} from "@nextui-org/react";
-import {Button, ButtonGroup} from "@nextui-org/react";
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownSection,
-  DropdownItem
-} from "@nextui-org/react";
 
 function App() {
-  const myRef = useRef(null);
-  const currentDate = new Date();
-  const dayOfWeek = currentDate.getDay();
-  const daysUntilLastMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
-  const daysUntilThisSunday = dayOfWeek === 0 ? dayOfWeek : 7 - dayOfWeek;
-  const lastMonday = new Date(currentDate);
-  lastMonday.setDate(currentDate.getDate() - daysUntilLastMonday);
-  const thisSunday = new Date(currentDate);
-  thisSunday.setDate(currentDate.getDate() + daysUntilThisSunday);
-
+  // const year = new Date().getFullYear();
+  const year = 2024;
   const comps = [
     // "Masters 2",
     // "Masters 4",
@@ -35,12 +17,13 @@ function App() {
     // "Wellington 1",
     // "Women's Capital 1",
     // "Women's Capital 3",
-    "Masters Over 45's - Bottom 4",
+    "Masters Over 45's - 2",
   ]
 
   const from = "2024-03-01T00:00:00.000Z";
   const to = "2024-12-01T00:00:00.000Z";
-  const date = new Date(from).toLocaleString("en-NZ", { month: "long", year: "numeric" });
+  // const from = `${year}-03-01T00:00:00.000Z`;
+  // const to = `${year + 1}-03-01T00:00:00.000Z`;
   
   const [dataCache, setDataCache] = useState({});
 
@@ -60,8 +43,6 @@ function App() {
       const response = await fetch(url+query);
       const data = await response.json();
       
-      // alert(data);
-      
       setDataCache((prevCache) => ({...prevCache, [comp]: data}));
       
     } catch (error) {
@@ -70,15 +51,15 @@ function App() {
     }
   };
 
-  const handleAccordionClick = async (comp) => {
-    const compOpen = comp.target.dataset.open === "true";
+  // const handleAccordionClick = async (comp) => {
+  //   const compOpen = comp.target.dataset.open === "true";
     
-    if (!compOpen) { return }
+  //   if (!compOpen) { return }
 
-    // if (!dataCache[comp.target.innerText]) {
-    //   await fetchData(comp.target.innerText);
-    // }
-  };
+  //   if (!dataCache[comp.target.innerText]) {
+  //     fetchData(comp.target.innerText);
+  //   }
+  // };
 
   for (let comp of comps) {
     if (!dataCache[comp]) {
@@ -90,29 +71,21 @@ function App() {
     <>
       <div className="banner">
         <div className="banner-bg">
-          <img src="/banner-bg.png" />
+          <img src="/banner-bg.png" alt="seatoun logo" />
         </div>
-        <img className="banner-logo" src="/seatoun-logo.png" />
+        <img className="banner-logo" src="/seatoun-logo.png" alt="seatoun logo" />
       </div>
-          {/* <Month date={date} ref={myRef} /> */}
-      {/* <Dropdown>
-        <DropdownTrigger>
-        </DropdownTrigger>
-        <DropdownMenu aria-label="Static Actions">
-          <DropdownItem key="new">New file</DropdownItem>
-          <DropdownItem key="copy">Copy link</DropdownItem>
-          <DropdownItem key="edit">Edit file</DropdownItem>
-        </DropdownMenu>
-      </Dropdown> */}
+
+      <Year year={year} />
       
       <Accordion className="comp-accordion" selectionMode="multiple">
         {comps.map((compName, i) => (
-          <AccordionItem key={i} onClick={handleAccordionClick} title={compName} className="font-semibold" subtitle="Press to expand">
-            {dataCache[compName] ? (
-              <Competition compName={compName} fixtures={dataCache[compName]}/>
-            ) : (
+          <AccordionItem key={i} title={compName} className="font-semibold" subtitle="Press to expand">
+            {
+              dataCache[compName] ? 
+              <Competition compName={compName} fixtures={dataCache[compName]}/> : 
               <Spinner className="w-full mb-5" />
-            )}
+            }
           </AccordionItem>
         ))}
       </Accordion>

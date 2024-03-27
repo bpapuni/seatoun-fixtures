@@ -5,17 +5,21 @@
 }
 
 .banner {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-height: 12rem;
+    height: calc(100vh - 347px);
     background: rgb(22, 58, 90);
+    pointer-events: none;
     /* border-bottom: 1px solid #102b421a;
     box-shadow: 0 1px 1px #898b8d; */
 }
 
 .banner-bg {
-    position: relative;
+    height: 100%;
 }
 
 /* Banner gradient overlay */
@@ -26,7 +30,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(22, 58, 90, 1) 120%);
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(22, 58, 90, 1) 150%);
 }
 
 /* Banner background test */
@@ -34,12 +38,14 @@
     /* margin-top: -1rem; */
     scale: 0.9;
     opacity: 0.04;
+    /* height: 100%; */
 }
 
 .banner-logo {
     position: absolute;
-    top: 1;
+    bottom: -4.2rem;
     scale: 0.75;
+    /* height: 100%; */
     /* opacity: 0.02; */
 }
 
@@ -63,7 +69,7 @@
 .comp-accordion {
     max-width: 42rem;
     margin: auto;
-    /* margin-top: -0.5rem; */
+    margin-top: -0.5rem;
     padding: 0 1rem;
 }
 

@@ -1,13 +1,11 @@
-// import Fixture from './Fixture';
-
-const Month = ({ date }) => {
+const Year = ({ year }) => {
     return (
         <div tabIndex="0" className="month">
             <hr />
-            {date}
+            {year}
             <hr />
         </div>
     );
 };
 
-export default Month;
+export default Year;

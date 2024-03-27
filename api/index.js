@@ -29,7 +29,7 @@ async function fetchAndOrganizeFixtures(comp, from, to) {
         // "Masters Over 45's - Top 8":  2695624069,       // Seatoun Vorstermans Architects 99s
         "Masters Over 45's - Top 8":  2702495331,       // Seatoun Vorstermans Architects 99s
         // "Masters Over 45's - Bottom 4":  2695624290,    // Seatoun Originals
-        "Masters Over 45's - Bottom 4":  2702495303,    // Seatoun Originals
+        "Masters Over 45's - 2":  2702495303,    // Seatoun Originals
         // "Men's Capital Premier":  2619536530,           // Seatoun AFC
         "Men's Capital Premier":  2701097689,           // Seatoun AFC
         // "Men's Capital 2": 2642142077,                  // Seatoun AFC Reserves

@@ -31,7 +31,7 @@ const Fixture = ({ match, i, nextMatch}) => {
                         })}</p>
                     </div>
                 </span>
-                <a href={match.map} target="_blank">{match.venue}</a>
+                <a href={match.map} target="_blank" rel="noreferrer" >{match.venue}</a>
             </div>
         </>
     );
