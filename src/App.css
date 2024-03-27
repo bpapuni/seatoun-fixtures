@@ -100,6 +100,7 @@
 
 .fixture.next-match {
     background-color: #d3e7fb;
+    border: 1px solid #508ecc;
 }
 
 .fixture > span {
@@ -152,8 +153,11 @@
     padding: 0.5rem;
 }
 
-.fixture > p {
+.fixture > a {
     font-size: 10pt;
+    margin: 0.5rem 0 -0.25rem 0;
+    text-decoration: underline;
+    color: #125eaa
 }
 
 .fixture > .date > p {

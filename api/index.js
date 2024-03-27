@@ -79,6 +79,7 @@ async function fetchAndOrganizeFixtures(comp, from, to) {
                     "awayTeam": data.fixtures[i].AwayTeamNameAbbr,
                     "fixtureDate": data.fixtures[i].Date,
                     "venue": data.fixtures[i].VenueName,
+                    "map": `https://www.google.com/maps/search/?api=1&query=${data.fixtures[i].Latitude},${data.fixtures[i].Longitude}`,
                     "homeScore": data.fixtures[i].HomeScore,
                     "awayScore": data.fixtures[i].AwayScore,
                     "homeLogo": data.fixtures[i].HomeOrgLogo,
