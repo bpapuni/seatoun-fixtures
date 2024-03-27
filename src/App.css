@@ -87,9 +87,9 @@
 
 .fixture {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     margin: 0.5rem 0;
     padding: 0.5rem;
     /* border: 1px solid #999; */
@@ -102,7 +102,14 @@
     background-color: #d3e7fb;
 }
 
-.fixture > .teams {
+.fixture > span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.fixture > span > .teams {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -111,20 +118,20 @@
     border-right: 1px solid black;
 }
 
-.fixture > .teams > span {
+.fixture > span > .teams > span {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.fixture > .teams > span > .logo {
+.fixture > span > .teams > span > .logo {
     min-width: 3rem;
     height: 1.2rem;
     object-fit: contain;
     /* margin: 0; */
 }
 
-.fixture > .teams > span > p {
+.fixture > span > .teams > span > p {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -136,13 +143,17 @@
     text-overflow: ellipsis;
 }
 
-.fixture > .date {
+.fixture > span > .date {
     display: flex;
     flex-direction: column;
     align-items: center;
     min-width: 6rem;
     height: 100%;
     padding: 0.5rem;
+}
+
+.fixture > p {
+    font-size: 10pt;
 }
 
 .fixture > .date > p {

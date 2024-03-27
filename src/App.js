@@ -28,17 +28,17 @@ function App() {
   const comps = [
     // "Masters 2",
     // "Masters 4",
-    "Masters Over 45's - Bottom 4",
     // "Masters Over 45's - Top 8",
     "Men's Capital Premier",
+    "Women's Central League",
     "Men's Capital 2",
     // "Wellington 1",
     // "Women's Capital 1",
     // "Women's Capital 3",
-    "Women's Central League",
+    "Masters Over 45's - Bottom 4",
   ]
 
-  const from = "2024-04-01T00:00:00.000Z";
+  const from = "2024-03-01T00:00:00.000Z";
   const to = "2024-12-01T00:00:00.000Z";
   const date = new Date(from).toLocaleString("en-NZ", { month: "long", year: "numeric" });
   
