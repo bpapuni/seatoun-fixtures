@@ -26,20 +26,20 @@ function App() {
   thisSunday.setDate(currentDate.getDate() + daysUntilThisSunday);
 
   const comps = [
-    "Masters 2",
-    "Masters 4",
+    // "Masters 2",
+    // "Masters 4",
     "Masters Over 45's - Bottom 4",
-    "Masters Over 45's - Top 8",
+    // "Masters Over 45's - Top 8",
     "Men's Capital Premier",
     "Men's Capital 2",
-    "Wellington 1",
-    "Women's Capital 1",
-    "Women's Capital 3",
+    // "Wellington 1",
+    // "Women's Capital 1",
+    // "Women's Capital 3",
     "Women's Central League",
   ]
 
   const from = "2024-04-01T00:00:00.000Z";
-  const to = "2024-05-01T00:00:00.000Z";
+  const to = "2024-12-01T00:00:00.000Z";
   const date = new Date(from).toLocaleString("en-NZ", { month: "long", year: "numeric" });
   
   const [dataCache, setDataCache] = useState({});
@@ -90,7 +90,7 @@ function App() {
         </div>
         <img className="banner-logo" src="/seatoun-logo.png" />
       </div>
-          <Month date={date} ref={myRef} />
+          {/* <Month date={date} ref={myRef} /> */}
       {/* <Dropdown>
         <DropdownTrigger>
         </DropdownTrigger>
