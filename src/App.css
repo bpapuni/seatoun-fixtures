@@ -63,7 +63,7 @@
 .comp-accordion {
     max-width: 42rem;
     margin: auto;
-    margin-top: -0.5rem;
+    /* margin-top: -0.5rem; */
     padding: 0 1rem;
 }
 
@@ -96,6 +96,10 @@
     border-radius: 1rem;
     box-shadow: 0 2px 2px #00000011;
     background-color: white;
+}
+
+.fixture.next-match {
+    background-color: #d3e7fb;
 }
 
 .fixture > .teams {

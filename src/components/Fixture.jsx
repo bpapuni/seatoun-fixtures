@@ -1,7 +1,8 @@
-const Fixture = ({ match, i }) => {
+const Fixture = ({ match, i, nextMatch}) => {
+    console.log(nextMatch);
     return (
         <>
-            <div key={i} className="fixture">
+            <div key={i} className={nextMatch ? "fixture next-match" : "fixture" }>
                 <div className="teams">
                     <span>
                         <img className="logo" src={"https:" + match.homeLogo} alt={match.homeTeam + "'s Logo"} />
