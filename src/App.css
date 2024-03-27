@@ -169,3 +169,9 @@
 .fixture > .date > p {
     margin: 0;
 }
+
+@media screen and (max-width: 500px) {
+    .banner {
+        height: unset;
+    }
+  }
