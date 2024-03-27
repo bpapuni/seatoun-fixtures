@@ -60,6 +60,8 @@ function App() {
       const response = await fetch(url+query);
       const data = await response.json();
       
+      // alert(data);
+      
       setDataCache((prevCache) => ({...prevCache, [comp]: data}));
       
     } catch (error) {
@@ -73,14 +75,16 @@ function App() {
     
     if (!compOpen) { return }
 
-    if (!dataCache[comp.target.innerText]) {
-      await fetchData(comp.target.innerText);
-    }
+    // if (!dataCache[comp.target.innerText]) {
+    //   await fetchData(comp.target.innerText);
+    // }
   };
 
-  // useEffect(() => {
-  //   alert("Set");
-  // }, [dataCache["Masters 2"]])
+  for (let comp of comps) {
+    if (!dataCache[comp]) {
+      fetchData(comp);
+    }
+  }
 
   return (
     <>
