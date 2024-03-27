@@ -107,9 +107,9 @@ function App() {
       
       <Accordion className="comp-accordion" selectionMode="multiple">
         {comps.map((compName, i) => (
-          <AccordionItem key={i} onClick={handleAccordionClick} title={compName}>
+          <AccordionItem key={i} onClick={handleAccordionClick} title={compName} className="font-semibold" subtitle="Press to expand">
             {dataCache[compName] ? (
-              <Competition compName={compName} fixtures={dataCache[compName]} />
+              <Competition compName={compName} fixtures={dataCache[compName]}/>
             ) : (
               <Spinner className="w-full mb-5" />
             )}

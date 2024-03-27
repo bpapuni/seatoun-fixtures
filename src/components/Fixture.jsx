@@ -1,7 +1,7 @@
 const Fixture = ({ match, i, nextMatch}) => {
     return (
         <>
-            <div key={i} className={nextMatch ? "fixture next-match" : "fixture" }>
+            <div key={i} className={nextMatch ? "fixture font-normal next-match" : "fixture font-normal" }>
                 <span>
                     <div className="teams">
                         <span>
