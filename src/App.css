@@ -11,7 +11,7 @@
     align-items: center;
     justify-content: center;
     min-height: 12rem;
-    height: calc(100vh - 347px);
+    max-height: calc(100vh - 347px);
     background: rgb(22, 58, 90);
     pointer-events: none;
     /* border-bottom: 1px solid #102b421a;
@@ -172,6 +172,6 @@
 
 @media screen and (max-width: 500px) {
     .banner {
-        height: unset;
+        /* height: unset; */
     }
   }
