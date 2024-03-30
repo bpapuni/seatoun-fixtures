@@ -20,24 +20,15 @@ app.get("/api/v1/fixtures", async (req, res) => {
 async function fetchAndOrganizeFixtures(comp, from, to) {
     const competitionIds = {
         // "Kate Sheppard Cup": 2630433561,                // Seatoun Association Football Club NOT READY
-        // "Kelly Cup": 2600922677,                        // Seatoun Association Football Club
         "Kelly Cup": 2700849949,                        // Seatoun Association Football Club
-        // "Masters 2":  2656200449,                       // Seatoun AFC Masters
-        "Masters 2":  2702491232,                       // Seatoun AFC Masters
-        // "Masters 4":  2656238270,                       // IBU Seatoun Qnited
-        "Masters 4":  2702492756,                       // IBU Seatoun Qnited
-        // "Masters Over 45's - Top 8":  2695624069,       // Seatoun Vorstermans Architects 99s
-        "Masters Over 45's - Top 8":  2702495331,       // Seatoun Vorstermans Architects 99s
-        // "Masters Over 45's - Bottom 4":  2695624290,    // Seatoun Originals
+        // "Masters 2":  2702491232,                       // Seatoun AFC Masters
+        // "Masters 4":  2702492756,                       // IBU Seatoun Qnited
+        "Masters Over 45's - 1":  2702494160,               // Seatoun Vorstermans Architects 99s
         "Masters Over 45's - 2":  2702495303,    // Seatoun Originals
-        // "Men's Capital Premier":  2619536530,           // Seatoun AFC
         "Men's Capital Premier":  2701097689,           // Seatoun AFC
-        // "Men's Capital 2": 2642142077,                  // Seatoun AFC Reserves
         "Men's Capital 2": 2701097873,                  // Seatoun AFC Reserves
-        // "Wellington 1": 2695087789,                     // Seatoun AFC Thirds REMOVED
         // "Women's Capital 1": 2695317873,                // Seatoun AFC Women Shanties NOT READY
         // "Women's Capital 3": 2695320403,                // Seatoun AFC Women Seagals  NOT READY
-        // "Women's Central League": 2617950277,           // Seatoun Association Football Club
         "Women's Central League": 2700992533,           // Seatoun Association Football Club
     }
 

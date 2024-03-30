@@ -10,14 +10,13 @@ function App() {
   const comps = [
     // "Masters 2",
     // "Masters 4",
-    // "Masters Over 45's - Top 8",
     "Men's Capital Premier",
     "Women's Central League",
     "Kelly Cup",
     "Men's Capital 2",
-    // "Wellington 1",
     // "Women's Capital 1",
     // "Women's Capital 3",
+    "Masters Over 45's - 1",
     "Masters Over 45's - 2",
   ]
 
