@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Competition from './components/Competition';
 import Year from './components/Year';
 import './App.css';
@@ -13,6 +13,7 @@ function App() {
     // "Masters Over 45's - Top 8",
     "Men's Capital Premier",
     "Women's Central League",
+    "Kelly Cup",
     "Men's Capital 2",
     // "Wellington 1",
     // "Women's Capital 1",
@@ -43,29 +44,33 @@ function App() {
       const response = await fetch(url+query);
       const data = await response.json();
       
-      setDataCache((prevCache) => ({...prevCache, [comp]: data}));
+      if (data) {
+        setDataCache((prevCache) => ({...prevCache, [comp]: data}));
+      } else {
+        // fetchData(comp);
+        console.log("Failed");
+      }
       
     } catch (error) {
       console.error('Error fetching data:', error);
-      throw error;
+      // throw error;
     }
   };
 
   // const handleAccordionClick = async (comp) => {
   //   const compOpen = comp.target.dataset.open === "true";
+  //   const compName = comp.target.parentElement.firstChild.innerText;
     
   //   if (!compOpen) { return }
-
-  //   if (!dataCache[comp.target.innerText]) {
-  //     fetchData(comp.target.innerText);
-  //   }
   // };
 
-  for (let comp of comps) {
-    if (!dataCache[comp]) {
-      fetchData(comp);
+  useEffect(() => {
+    for (let comp of comps) {
+      if (!dataCache[comp]) {
+        fetchData(comp);
+      }
     }
-  }
+  }, [])
 
   return (
     <>

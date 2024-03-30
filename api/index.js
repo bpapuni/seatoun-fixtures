@@ -41,12 +41,6 @@ async function fetchAndOrganizeFixtures(comp, from, to) {
         "Women's Central League": 2700992533,           // Seatoun Association Football Club
     }
 
-    // const teamComps = {
-    //     45282: [ competitionIds["Masters 4"] ],
-    //     45289: [ competitionIds["Masters 2"], competitionIds["Masters Over 45's - Top 8"], competitionIds["Masters Over 45's - Bottom 4"], 
-    //              competitionIds["Men's Capital Premier"], competitionIds["Men's Capital 2"], competitionIds["Women's Capital 1"], competitionIds["Women's Capital 3"],
-    //              competitionIds["Kate Sheppard Cup"], competitionIds["Kelly Cup"], competitionIds["Women's Central League"] ]
-    // }
     const body = {
         "competitionId": competitionIds[comp],
         "orgIds": comp === "Masters 4" ? 45282 : 45289,
@@ -54,48 +48,68 @@ async function fetchAndOrganizeFixtures(comp, from, to) {
         "to": to,
         // "from": "2024-04-01T00:00:00.000Z",
         // "to": "2024-05-01T00:00:00.000Z",
+        
         "sportId": "1",
         "seasonId": "2024",
         "gradeIds": "SENIORS",
     };
 
-    // console.log(body);
+    let fixtures = null;
 
-    const fixtures = await fetch("https://www.capitalfootball.org.nz/api/1.0/competition/cometwidget/filteredfixtures", {
-        headers: {
-            "content-type": "application/json; charset=UTF-8",
-        },
-        method: "POST",
-        body: JSON.stringify(body),
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.fixtures.length > 0) {
-            const matches = [];
-            for (let i = 0; i < data.fixtures.length - 1; i++) {
-                if (data.fixtures[i] == null) { break; }
-                matches.push({
-                    "homeTeam": data.fixtures[i].HomeTeamNameAbbr,
-                    "awayTeam": data.fixtures[i].AwayTeamNameAbbr,
-                    "fixtureDate": data.fixtures[i].Date,
-                    "venue": data.fixtures[i].VenueName,
-                    "map": `https://www.google.com/maps/search/?api=1&query=${data.fixtures[i].Latitude},${data.fixtures[i].Longitude}`,
-                    "homeScore": data.fixtures[i].HomeScore,
-                    "awayScore": data.fixtures[i].AwayScore,
-                    "homeLogo": data.fixtures[i].HomeOrgLogo,
-                    "awayLogo": data.fixtures[i].AwayOrgLogo
+    // Define a function for fetching data with retries
+    async function fetchDataWithRetries() {
+        const maxRetries = 3;
+        let retries = 0;
+
+        while (retries < maxRetries) {
+            try {
+                const response = await fetch("https://www.capitalfootball.org.nz/api/1.0/competition/cometwidget/filteredfixtures", {
+                    headers: {
+                        "content-type": "application/json; charset=UTF-8",
+                    },
+                    method: "POST",
+                    body: JSON.stringify(body),
                 });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                if (data.fixtures && data.fixtures.length > 0) {
+                    // Process data and return fixtures
+                    const matches = data.fixtures.map(fixture => ({
+                        "homeTeam": fixture.HomeTeamNameAbbr,
+                        "awayTeam": fixture.AwayTeamNameAbbr,
+                        "fixtureDate": fixture.Date,
+                        "venue": fixture.VenueName,
+                        "map": `https://www.google.com/maps/search/?api=1&query=${fixture.Latitude},${fixture.Longitude}`,
+                        "homeScore": fixture.HomeScore,
+                        "awayScore": fixture.AwayScore,
+                        "homeLogo": fixture.HomeOrgLogo,
+                        "awayLogo": fixture.AwayOrgLogo
+                    }));
+                    return matches;
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                retries++;
+                console.log(`Retrying (${retries}/${maxRetries})...`);
+                await new Promise(resolve => setTimeout(resolve, 1000)); // Delay before retrying
             }
-            
-            return matches;
         }
-    })
-    .catch(error => {
-        console.error(error);
-    });
+        throw new Error('Max retries reached');
+    }
+
+    // Call the fetch function with retries
+    try {
+        fixtures = await fetchDataWithRetries();
+    } catch (error) {
+        console.error('Failed to retrieve fixtures:', error);
+        // Handle failure
+    }
 
     return fixtures;
 }
+
 
 function getKeyByValue(object, value) {
     for (const key in object) {
