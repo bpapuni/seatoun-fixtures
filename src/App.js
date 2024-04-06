@@ -10,12 +10,13 @@ function App() {
   const comps = [
     // "Masters 2",
     // "Masters 4",
+    // "Kelly Cup",
     "Women's Central League",
     "Men's Capital Premier",
-    "Kelly Cup",
     "Men's Capital 2",
-    // "Women's Capital 1",
-    // "Women's Capital 3",
+    "Women's Capital 1",
+    "Women's Capital 3",
+    "Masters 1",
     "Masters Over 45's - 1",
     "Masters Over 45's - 2",
   ]
@@ -42,9 +43,11 @@ function App() {
 
       const response = await fetch(url+query);
       const data = await response.json();
+      const fixtures = data.flat().sort((a, b) => new Date(a.fixtureDate) - new Date(b.fixtureDate));
       
+
       if (data) {
-        setDataCache((prevCache) => ({...prevCache, [comp]: data}));
+        setDataCache((prevCache) => ({...prevCache, [comp]: fixtures}));
       } else {
         // fetchData(comp);
         console.log("Failed");
