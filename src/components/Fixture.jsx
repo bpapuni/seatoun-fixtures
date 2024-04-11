@@ -31,6 +31,7 @@ const Fixture = ({ match, i, nextMatch}) => {
                         })}</p>
                     </div>
                 </span>
+                <strong>{match.penaltyScore && ("Penalties " + match.penaltyScore)}</strong>
                 <a href={match.map} target="_blank" rel="noreferrer" >{match.venue}</a>
             </div>
         </>
