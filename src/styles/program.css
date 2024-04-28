@@ -1,10 +1,17 @@
-#program {
-    height: 100vh;
-    padding: 3rem;
+#programs {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 100vh;
+    background-color: red;
+}
+
+.program {
+    flex: 1;
+    padding: 2rem;
     background: #fffef4;
 }
 
-#program h1 {
+#programs h1 {
     font-family: 'Jetlab';
     /* font-weight: bold; */
     text-transform: uppercase;
@@ -12,13 +19,13 @@
     line-height: 12pt;
 }
 
-#program p {
+#programs p {
     font-family: 'Alte DIN 1451 Mittelschrift';
     font-size: 12pt;
     line-height: 12pt;
 }
 
-#program hr {
+#programs hr {
     border: 1.5px solid black;
     margin: 0.5rem 0 0.45rem 0;
     width: 20rem;
