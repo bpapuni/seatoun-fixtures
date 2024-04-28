@@ -3,7 +3,8 @@ import './styles/fonts.css';
 import './styles/program.css';
 
 function Program() {
-    const numOfWeeks = 4;
+    const numOfWeeks = Math.floor((new Date(new Date().getFullYear(), 8, 9) - new Date()) / (1000 * 60 * 60 * 24 * 7));
+
 
     const today = new Date();
     const currentDay = today.getDay();
