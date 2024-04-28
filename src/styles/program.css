@@ -1,0 +1,27 @@
+body {
+    background: #fffef4;
+}
+
+#program {
+    margin: 1rem;
+    width: 20rem;
+}
+
+h1 {
+    font-family: 'Jetlab';
+    /* font-weight: bold; */
+    text-transform: uppercase;
+    font-size: 12pt;
+    line-height: 12pt;
+}
+
+p {
+    font-family: 'Alte DIN 1451 Mittelschrift';
+    font-size: 12pt;
+    line-height: 12pt;
+}
+
+hr {
+    border: 1.5px solid black;
+    margin: 0.5rem 0 0.45rem 0;
+}

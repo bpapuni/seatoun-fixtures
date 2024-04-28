@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'Alte DIN 1451 Mittelschrift';
+    src: url('../../public/fonts/din1451alt.ttf') format('truetype');
+  }
+  
+@font-face {
+    font-family: 'Jetlab';
+    src: url('../../public/fonts/Jetlab Medium.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Jetlab';
+    src: url('../../public/fonts/Jetlab Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+}

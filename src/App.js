@@ -5,12 +5,8 @@ import './App.css';
 import {Accordion, AccordionItem, Spinner} from "@nextui-org/react";
 
 function App() {
-  // const year = new Date().getFullYear();
   const year = 2024;
   const comps = [
-    // "Masters 2",
-    // "Masters 4",
-    // "Kelly Cup",
     "Women's Central League",
     "Men's Capital Premier",
     "Men's Capital 2",
@@ -26,12 +22,11 @@ function App() {
   // const from = `${year}-03-01T00:00:00.000Z`;
   // const to = `${year + 1}-03-01T00:00:00.000Z`;
   
-  const [dataCache, setDataCache] = useState({});
+  const [dataCache, setDataCache] = useState([]);
 
   const fetchData = async (comp) => {
     try {
       const params = {
-        comp: comp,
         from: from,
         to: to
       };
@@ -44,12 +39,10 @@ function App() {
       const response = await fetch(url+query);
       const data = await response.json();
       const fixtures = data.flat().sort((a, b) => new Date(a.fixtureDate) - new Date(b.fixtureDate));
-      
 
       if (data) {
-        setDataCache((prevCache) => ({...prevCache, [comp]: fixtures}));
+        setDataCache(fixtures);
       } else {
-        // fetchData(comp);
         console.log("Failed");
       }
       
@@ -67,12 +60,8 @@ function App() {
   // };
 
   useEffect(() => {
-    for (let comp of comps) {
-      if (!dataCache[comp]) {
-        fetchData(comp);
-      }
-    }
-  }, [])
+      fetchData();
+  }, []);
 
   return (
     <>
@@ -89,8 +78,8 @@ function App() {
         {comps.map((compName, i) => (
           <AccordionItem key={i} title={compName} className="font-semibold" subtitle="Press to expand">
             {
-              dataCache[compName] ? 
-              <Competition compName={compName} fixtures={dataCache[compName]}/> : 
+              dataCache.length > 0 ? 
+              <Competition compName={compName} fixtures={dataCache.filter(fixture => fixture.comp == compName)}/> : 
               <Spinner className="w-full mb-5" />
             }
           </AccordionItem>

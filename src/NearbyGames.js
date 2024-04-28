@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Fixture from './components/Fixture';
-import {Accordion, AccordionItem, Spinner} from "@nextui-org/react";
 
 function NearbyGames() {
     const [dataCache, setDataCache] = useState([]);
@@ -16,14 +15,15 @@ function NearbyGames() {
     useEffect(() => {
         fetchData();
     }, [])
+    
     return (
-    <>
-        {dataCache.map((match, i) => {
-            const diff = Math.floor(new Date(match.fixtureDate) - new Date()) / (1000 * 60 * 60 * 24);
-            dateDiff = diff >= 0 && diff <= dateDiff ? diff : dateDiff;
-            return <Fixture key={i} match={match} nextMatch={diff >= 0 && diff <= dateDiff} />
-        })}
-    </>
+        <>
+            {dataCache.map((match, i) => {
+                const diff = Math.floor(new Date(match.fixtureDate) - new Date()) / (1000 * 60 * 60 * 24);
+                dateDiff = diff >= 0 && diff <= dateDiff ? diff : dateDiff;
+                return <Fixture key={i} match={match} nextMatch={diff >= 0 && diff <= dateDiff} />
+            })}
+        </>
     )
 }
 

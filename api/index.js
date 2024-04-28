@@ -4,25 +4,49 @@ const app = express()
 
 app.use(cors());
 app.get("/api/v1/fixtures", async (req, res) => {
-    const comp = req.query.comp;
+    // const comp = req.query.comp;
     const from = req.query.from;
     const to = req.query.to;
 
     try {
-        const fixtures = await GetSeatounFixtures(comp, from, to);
+        // const fixtures = await GetSeatounFixtures(comp, from, to);
+        const fixtures = await GetSeatounFixtures(from, to);
         res.json(fixtures);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
+// app.get("/api/v1/program", async (req, res) => {
+//     const today = new Date();
+//     const currentDay = today.getDay(); // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
+
+//     // Calculate the date of Monday by subtracting the number of days since Monday
+//     const from = new Date(today);
+//     from.setDate(today.getDate() - currentDay + (currentDay === 0 ? -6 : 1));
+
+//     // Calculate the date of Sunday by adding the number of days until Sunday
+//     const to = new Date(today);
+//     to.setDate(today.getDate() - currentDay + 7);
+//     const comp = req.query.comp;
+
+//     try {
+//         const fixtures = await GetSeatounFixtures(comp, from, to);
+//         res.json(fixtures);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: "Internal Server Error" });
+//     }
+// });
+
 app.get("/api/v1/nearbygames", async (req, res) => {
     // const comp = req.query.comp;
     // const from = req.query.from;
     // const to = req.query.to;
 
     try {
-        const fixtures = await GetAllFixtures();
+        const fixtures = await GetWakefieldFixtures();
         res.json(fixtures);
     } catch (error) {
         console.error(error);
@@ -30,7 +54,7 @@ app.get("/api/v1/nearbygames", async (req, res) => {
     }
 });
 
-async function GetSeatounFixtures(comp, from, to) {
+async function GetSeatounFixtures(from, to) {
     const fixtures = [];
     const competitionIds = {
         // "Kate Sheppard Cup": 2630433561,             // Seatoun Association Football Club NOT READY
@@ -41,19 +65,16 @@ async function GetSeatounFixtures(comp, from, to) {
         "Men's Capital Premier":  2701097689,           // Seatoun AFC
         "Men's Capital 2": 2701097873,                  // Seatoun AFC Reserves
         "Women's Capital 1": 2702664070,                // Seatoun AFC Women Shanties
-        "Women's Capital 3": 2702664316,                // Seatoun AFC Women Seagals
+        "Women's Capital 3": 2702664313,                // Seatoun AFC Women Seagals
         "Women's Central League": [ 2700992533, 2700849949 ],           // Seatoun Association Football Club | WCL && Kelly Cup
     }
 
     async function GetSeatounFixturesForComp(compId) {
         const body = {
             "competitionId": compId,
-            "orgIds": comp === "Masters 4" ? 45282 : 45289,
+            "orgIds": 45289,
             "from": from,
-            "to": to,
-            // "from": "2024-04-01T00:00:00.000Z",
-            // "to": "2024-05-01T00:00:00.000Z",
-            
+            "to": to,            
             "sportId": "1",
             "seasonId": "2024",
             "gradeIds": "SENIORS",
@@ -70,6 +91,7 @@ async function GetSeatounFixtures(comp, from, to) {
         const data = await response.json();
         if (data.fixtures && data.fixtures.length > 0) {
             const match = data.fixtures.map(fixture => ({
+                "comp": Object.keys(competitionIds).find(key => (Array.isArray(competitionIds[key]) ? competitionIds[key].includes(compId) : competitionIds[key] === compId)),
                 "homeTeam": fixture.HomeTeamNameAbbr,
                 "awayTeam": fixture.AwayTeamNameAbbr,
                 "fixtureDate": fixture.Date,
@@ -86,25 +108,34 @@ async function GetSeatounFixtures(comp, from, to) {
         }
     }
 
-    if (Array.isArray(competitionIds[comp])) {
-        for (let compId of competitionIds[comp]) {
-            fixtures.push(await GetSeatounFixturesForComp(compId));
+    for (let comp in competitionIds) {
+        if (Array.isArray(competitionIds[comp])) {
+            for (let compId of competitionIds[comp]) {
+                const fixture = await GetSeatounFixturesForComp(compId);
+                if (fixture !== undefined) {
+                    fixtures.push(fixture);
+                }
+            }
+        } else {
+            const fixture = await GetSeatounFixturesForComp(competitionIds[comp]);
+            if (fixture !== undefined) {
+                fixtures.push(fixture);
+            }
         }
-    } else {
-        fixtures.push(await GetSeatounFixturesForComp(competitionIds[comp]));
     }
+    
     return fixtures;
 }
 
-async function GetAllFixtures() {
+async function GetWakefieldFixtures() {
     const fixtures = [];
     const competitionIds = {
         "Mens Central League": 2701371410,
-        "Mens Capital Premier": 2701097689
+        // "Mens Capital Premier": 2701097689
     }
     
 
-    async function GetAllFixturesForComp(compName) {
+    async function GetWakefieldFixturesForComp(compName) {
         const body = {
             "competitionId": competitionIds[compName],
             "orgIds": "45282,46072,45252,45257,45290,45292,45297,45296,45289,45259,282772,45293,45244,45243,44539",
@@ -144,7 +175,7 @@ async function GetAllFixtures() {
     }
 
     for (let compName in competitionIds) {
-        fixtures.push(await GetAllFixturesForComp(compName));
+        fixtures.push(await GetWakefieldFixturesForComp(compName));
     }
 
     return fixtures.flat().filter(fixture => fixture.venue.includes("Wakefield Park")).sort((a, b) => new Date(a.fixtureDate) - new Date(b.fixtureDate));
