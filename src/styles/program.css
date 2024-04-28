@@ -1,13 +1,10 @@
-body {
+#program {
+    height: 100vh;
+    padding: 3rem;
     background: #fffef4;
 }
 
-#program {
-    margin: 1rem;
-    width: 20rem;
-}
-
-h1 {
+#program h1 {
     font-family: 'Jetlab';
     /* font-weight: bold; */
     text-transform: uppercase;
@@ -15,13 +12,14 @@ h1 {
     line-height: 12pt;
 }
 
-p {
+#program p {
     font-family: 'Alte DIN 1451 Mittelschrift';
     font-size: 12pt;
     line-height: 12pt;
 }
 
-hr {
+#program hr {
     border: 1.5px solid black;
     margin: 0.5rem 0 0.45rem 0;
+    width: 20rem;
 }
