@@ -23,17 +23,6 @@ function Program() {
     const endDay = new Date(nextSunday);
     endDay.setDate(endDay.getDate() + numOfWeeks * 7);
 
-    const comps = [
-        "Women's Central League",
-        "Men's Capital Premier",
-        "Men's Capital 2",
-        "Women's Capital 1",
-        "Women's Capital 3",
-        "Masters 1",
-        "Masters Over 45's - 1",
-        "Masters Over 45's - 2",
-    ];
-
     const [dataCache, setDataCache] = useState([]);
 
     const fetchData = async (comp) => {

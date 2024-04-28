@@ -1,0 +1,47 @@
+#standings {
+    background: #fffef4;
+}
+
+.standing {
+    margin: 0.5rem 0 0 1rem;
+    font-family: Arial;
+}
+
+.standing hr {
+    width: 35rem;
+    border: 1.5px solid #423f3f;
+    margin: 0.5rem 0 0.4rem 0;
+}
+.standing div {
+    font-size: 9pt;
+    line-height: 13pt;
+}
+
+.standing h1 {
+    color: #183959;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 12pt;
+    line-height: 14pt;
+}
+
+.standing b {
+    color: #00aeef;
+}
+
+span.column {
+    display: inline-block;
+    width: 3rem;
+    text-align: center;
+}
+
+span.team.column {
+    display: inline-block;
+    width: 15rem;
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
