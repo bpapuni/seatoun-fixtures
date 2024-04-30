@@ -3,33 +3,38 @@ import './styles/fonts.css';
 import './styles/program.css';
 
 function Program() {
-    const numOfWeeks = Math.floor((new Date(new Date().getFullYear(), 8, 9) - new Date()) / (1000 * 60 * 60 * 24 * 7));
+    const from = "2024-03-25T00:00:00.000Z";
+    const to = "2024-09-09T00:00:00.000Z";
 
+    // const numOfWeeks = Math.floor((new Date(new Date().getFullYear(), 8, 9) - new Date()) / (1000 * 60 * 60 * 24 * 7));
+    const numOfWeeks = Math.floor((new Date(to) - new Date(from)) / (1000 * 60 * 60 * 24 * 7));
 
     const today = new Date();
     const currentDay = today.getDay();
 
-    const nextMonday = new Date(today);
-    const daysUntilMonday = currentDay === 0 ? 1 : 8 - currentDay;
-    nextMonday.setDate(today.getDate() + daysUntilMonday);
-    nextMonday.setHours(0, 0, 0, 0);
-    nextMonday.setMinutes(nextMonday.getMinutes() - nextMonday.getTimezoneOffset());
+    // const nextMonday = new Date(today);
+    // const daysUntilMonday = currentDay === 0 ? 1 : 8 - currentDay;
+    // nextMonday.setDate(today.getDate() + daysUntilMonday);
+    // nextMonday.setHours(0, 0, 0, 0);
+    // nextMonday.setMinutes(nextMonday.getMinutes() - nextMonday.getTimezoneOffset());
 
-    const nextSunday = new Date(nextMonday);
-    nextSunday.setDate(nextMonday.getDate() + 6);
-    nextSunday.setHours(23, 59, 59, 999);
-    nextSunday.setMinutes(nextSunday.getMinutes() - nextSunday.getTimezoneOffset());
+    // const nextSunday = new Date(nextMonday);
+    // nextSunday.setDate(nextMonday.getDate() + 6);
+    // nextSunday.setHours(23, 59, 59, 999);
+    // nextSunday.setMinutes(nextSunday.getMinutes() - nextSunday.getTimezoneOffset());
 
-    const endDay = new Date(nextSunday);
-    endDay.setDate(endDay.getDate() + numOfWeeks * 7);
+    // const endDay = new Date(nextSunday);
+    // endDay.setDate(endDay.getDate() + numOfWeeks * 7);
 
     const [dataCache, setDataCache] = useState([]);
 
     const fetchData = async (comp) => {
         try {
           const params = {
-            from: nextMonday.toISOString(),
-            to: endDay.toISOString()
+            // from: nextMonday.toISOString(),
+            // to: endDay.toISOString()
+            from: from,
+            to: to
           };
           
           const url = "/api/v1/fixtures?";
@@ -78,21 +83,20 @@ function Program() {
         const weeks = [];
 
         for(let i = 0; i < index; i++) {
-            const nextMonday = new Date(today);
-            const daysUntilMonday = currentDay === 0 ? 1 : 8 - currentDay;
-            nextMonday.setDate(today.getDate() + daysUntilMonday + i * 7);
-            nextMonday.setHours(0, 0, 0, 0);
-            nextMonday.setMinutes(nextMonday.getMinutes() - nextMonday.getTimezoneOffset());
+            const monday = new Date(from);
+            monday.setDate(monday.getDate() + i * 7);
+            monday.setHours(0, 0, 0, 0);
+            monday.setMinutes(monday.getMinutes() - monday.getTimezoneOffset());
     
-            const nextSunday = new Date(nextMonday + i * 7);
-            nextSunday.setDate(nextMonday.getDate() + 6);
+            const nextSunday = new Date(monday + i * 7);
+            nextSunday.setDate(monday.getDate() + 6);
             nextSunday.setHours(23, 59, 59, 999);
             nextSunday.setMinutes(nextSunday.getMinutes() - nextSunday.getTimezoneOffset());
 
             weeks.push(
                 <div className="program" key={i}>
-                    <h2>{FormatDate(nextMonday)} - {FormatDate(nextSunday)}</h2>
-                    {dataCache.filter(fixture => ((new Date(fixture.fixtureDate) >= nextMonday) && (new Date(fixture.fixtureDate) <= nextSunday))).sort((a, b) => new Date(a.fixtureDate) - new Date(b.fixtureDate)).map((fixture, j) => (
+                    <h2>{FormatDate(monday)} - {FormatDate(nextSunday)}</h2>
+                    {dataCache.filter(fixture => ((new Date(fixture.fixtureDate) >= monday) && (new Date(fixture.fixtureDate) <= nextSunday))).sort((a, b) => new Date(a.fixtureDate) - new Date(b.fixtureDate)).map((fixture, j) => (
                         <div key={j}>
                             <hr />
                             <h1>{fixture.comp}</h1>
