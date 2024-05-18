@@ -45,6 +45,50 @@ app.get("/api/v1/nearbygames", async (req, res) => {
     }
 });
 
+app.get("/api/v1/gamestocsv", async (req, res) => {
+    const from = new Date().toISOString();
+    const to = "2024-12-01T00:00:00.000Z";
+    const params = {
+        from: from,
+        to: to
+    };
+
+    const url = "http://192.168.20.3:3000/api/v1/fixtures?";
+    const query = Object.entries(params)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&');
+
+    const response = await fetch(url+query);
+    const data = await response.json();
+    const fixtures = data.flat().sort((a, b) => new Date(a.fixtureDate) - new Date(b.fixtureDate));
+    
+    const jsonToCsv = (json) => {
+        let csv = "";
+    
+        json.forEach(item => {
+            const { comp, homeTeam, awayTeam, venue, fixtureDate } = item;
+            const date = new Date(fixtureDate);
+            const startDate = date.toLocaleDateString("en-NZ", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric"
+            });
+            const startTime = date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    
+            csv += `${comp} vs ${homeTeam.includes("Seatoun") ? awayTeam : homeTeam}, ${venue}, ${startDate}, ${startTime}\n`;
+        });
+    
+        return csv;
+    };
+
+    const csvData = jsonToCsv(fixtures);
+    const fileName = "data.csv";
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
+    res.send(csvData);
+})
+
 async function GetSeatounFixtures(from, to) {
     const fixtures = [];
     const competitionIds = {
