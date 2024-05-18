@@ -144,34 +144,37 @@ async function GetSeatounFixtures(from, to, compName) {
         }
     }
     
-    if (Array.isArray(competitionIds[compName])) {
-        for (let compId of competitionIds[compName]) {
-            const fixture = await GetSeatounFixturesForComp(compId);
+    if (compName) {
+        if (Array.isArray(competitionIds[compName])) {
+            for (let compId of competitionIds[compName]) {
+                const fixture = await GetSeatounFixturesForComp(compId);
+                if (fixture !== undefined) {
+                    fixtures.push(fixture);
+                }
+            }
+        } else {
+            const fixture = await GetSeatounFixturesForComp(competitionIds[compName]);
             if (fixture !== undefined) {
                 fixtures.push(fixture);
             }
         }
     } else {
-        const fixture = await GetSeatounFixturesForComp(competitionIds[compName]);
-        if (fixture !== undefined) {
-            fixtures.push(fixture);
+        for (let comp in competitionIds) {
+            if (Array.isArray(competitionIds[comp])) {
+                for (let compId of competitionIds[comp]) {
+                    const fixture = await GetSeatounFixturesForComp(compId);
+                    if (fixture !== undefined) {
+                        fixtures.push(fixture);
+                    }
+                }
+            } else {
+                const fixture = await GetSeatounFixturesForComp(competitionIds[comp]);
+                if (fixture !== undefined) {
+                    fixtures.push(fixture);
+                }
+            }
         }
     }
-    // for (let comp in competitionIds) {
-    //     if (Array.isArray(competitionIds[comp])) {
-    //         for (let compId of competitionIds[comp]) {
-    //             const fixture = await GetSeatounFixturesForComp(compId);
-    //             if (fixture !== undefined) {
-    //                 fixtures.push(fixture);
-    //             }
-    //         }
-    //     } else {
-    //         const fixture = await GetSeatounFixturesForComp(competitionIds[comp]);
-    //         if (fixture !== undefined) {
-    //             fixtures.push(fixture);
-    //         }
-    //     }
-    // }
     
     return fixtures;
 }
