@@ -22,18 +22,19 @@ function App() {
   // const from = `${year}-03-01T00:00:00.000Z`;
   // const to = `${year + 1}-03-01T00:00:00.000Z`;
   
-  const [dataCache, setDataCache] = useState([]);
+  const [dataCache, setDataCache] = useState({});
 
-  const fetchData = async (comp) => {
+  const fetchData = async (compName) => {
     try {
       const params = {
         from: from,
-        to: to
+        to: to,
+        compName: compName
       };
       
       const url = "/api/v1/fixtures?";
       const query = Object.entries(params)
-        .map(([key, value]) => `${key}=${value}`)
+        .map( ([key, value]) => `${key}=${value}` )
         .join('&');
 
       const response = await fetch(url+query);
@@ -41,7 +42,10 @@ function App() {
       const fixtures = data.flat().sort((a, b) => new Date(a.fixtureDate) - new Date(b.fixtureDate));
 
       if (data) {
-        setDataCache(fixtures);
+        setDataCache( existingData => ({
+          ...existingData,
+          [compName]: fixtures
+        }))
       } else {
         console.log("Failed");
       }
@@ -52,16 +56,18 @@ function App() {
     }
   };
 
-  // const handleAccordionClick = async (comp) => {
-  //   const compOpen = comp.target.dataset.open === "true";
-  //   const compName = comp.target.parentElement.firstChild.innerText;
+  const handleAccordionClick = async ( e ) => {
+    const compName = e.target.parentElement.firstChild.innerText.split("Press")[0].trim();
     
-  //   if (!compOpen) { return }
-  // };
+    if (dataCache[compName]) {
+      return;
+    }
+    fetchData(compName);
+  };
 
-  useEffect(() => {
-      fetchData();
-  }, []);
+  // useEffect(() => {
+  //     console.log(dataCache);
+  // }, [dataCache]);
 
   return (
     <>
@@ -76,10 +82,11 @@ function App() {
       
       <Accordion className="comp-accordion" selectionMode="multiple">
         {comps.map((compName, i) => (
-          <AccordionItem key={i} title={compName} className="font-semibold" subtitle="Press to expand">
+          <AccordionItem key={i} title={compName} onClick={ handleAccordionClick } className="font-semibold" subtitle="Press to expand">
             {
-              dataCache.length > 0 ? 
-              <Competition compName={compName} fixtures={dataCache.filter(fixture => fixture.comp == compName)}/> : 
+              dataCache[compName] ?
+              // <Competition compName={compName} fixtures={dataCache.filter(fixture => fixture.comp == compName)}/> : 
+              <Competition compName={ compName } fixtures={ dataCache[compName] }/> : 
               <Spinner className="w-full mb-5" />
             }
           </AccordionItem>

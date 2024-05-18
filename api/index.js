@@ -7,10 +7,11 @@ app.get("/api/v1/fixtures", async (req, res) => {
     // const comp = req.query.comp;
     const from = req.query.from;
     const to = req.query.to;
+    const compName = req.query.compName;
 
     try {
         // const fixtures = await GetSeatounFixtures(comp, from, to);
-        const fixtures = await GetSeatounFixtures(from, to);
+        const fixtures = await GetSeatounFixtures(from, to, compName);
         res.json(fixtures);
     } catch (error) {
         console.error(error);
@@ -89,7 +90,7 @@ app.get("/api/v1/gamestocsv", async (req, res) => {
     res.send(csvData);
 })
 
-async function GetSeatounFixtures(from, to) {
+async function GetSeatounFixtures(from, to, compName) {
     const fixtures = [];
     const competitionIds = {
         // "Kate Sheppard Cup": 2630433561,             // Seatoun Association Football Club NOT READY
@@ -142,22 +143,35 @@ async function GetSeatounFixtures(from, to) {
             return match;
         }
     }
-
-    for (let comp in competitionIds) {
-        if (Array.isArray(competitionIds[comp])) {
-            for (let compId of competitionIds[comp]) {
-                const fixture = await GetSeatounFixturesForComp(compId);
-                if (fixture !== undefined) {
-                    fixtures.push(fixture);
-                }
-            }
-        } else {
-            const fixture = await GetSeatounFixturesForComp(competitionIds[comp]);
+    
+    if (Array.isArray(competitionIds[compName])) {
+        for (let compId of competitionIds[compName]) {
+            const fixture = await GetSeatounFixturesForComp(compId);
             if (fixture !== undefined) {
                 fixtures.push(fixture);
             }
         }
+    } else {
+        const fixture = await GetSeatounFixturesForComp(competitionIds[compName]);
+        if (fixture !== undefined) {
+            fixtures.push(fixture);
+        }
     }
+    // for (let comp in competitionIds) {
+    //     if (Array.isArray(competitionIds[comp])) {
+    //         for (let compId of competitionIds[comp]) {
+    //             const fixture = await GetSeatounFixturesForComp(compId);
+    //             if (fixture !== undefined) {
+    //                 fixtures.push(fixture);
+    //             }
+    //         }
+    //     } else {
+    //         const fixture = await GetSeatounFixturesForComp(competitionIds[comp]);
+    //         if (fixture !== undefined) {
+    //             fixtures.push(fixture);
+    //         }
+    //     }
+    // }
     
     return fixtures;
 }
