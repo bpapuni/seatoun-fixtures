@@ -45,7 +45,6 @@ function Program() {
           const response = await fetch(url+query);
           const data = await response.json();
           const fixtures = data.flat();
-    
           if (data) {
             setDataCache(fixtures);
           } else {
@@ -60,6 +59,9 @@ function Program() {
 
     const FormatDate = (date) => {
         const newDate = new Date(date);
+        if (!newDate) {
+            return;
+        }
         const day = newDate.toLocaleString("en-NZ", {
             day: "numeric",
         });
@@ -88,7 +90,8 @@ function Program() {
             monday.setHours(0, 0, 0, 0);
             monday.setMinutes(monday.getMinutes() - monday.getTimezoneOffset());
     
-            const nextSunday = new Date(monday + i * 7);
+            // alert(new Date(monday) + 1)
+            const nextSunday = new Date(monday);
             nextSunday.setDate(monday.getDate() + 6);
             nextSunday.setHours(23, 59, 59, 999);
             nextSunday.setMinutes(nextSunday.getMinutes() - nextSunday.getTimezoneOffset());
