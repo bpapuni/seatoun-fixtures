@@ -1,30 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './styles/fonts.css';
 import './styles/program.css';
+import {Spinner} from "@nextui-org/react";
 
 function Program() {
     const from = "2024-03-25T00:00:00.000Z";
     const to = "2024-09-09T00:00:00.000Z";
 
-    // const numOfWeeks = Math.floor((new Date(new Date().getFullYear(), 8, 9) - new Date()) / (1000 * 60 * 60 * 24 * 7));
     const numOfWeeks = Math.floor((new Date(to) - new Date(from)) / (1000 * 60 * 60 * 24 * 7));
 
     const today = new Date();
     const currentDay = today.getDay();
-
-    // const nextMonday = new Date(today);
-    // const daysUntilMonday = currentDay === 0 ? 1 : 8 - currentDay;
-    // nextMonday.setDate(today.getDate() + daysUntilMonday);
-    // nextMonday.setHours(0, 0, 0, 0);
-    // nextMonday.setMinutes(nextMonday.getMinutes() - nextMonday.getTimezoneOffset());
-
-    // const nextSunday = new Date(nextMonday);
-    // nextSunday.setDate(nextMonday.getDate() + 6);
-    // nextSunday.setHours(23, 59, 59, 999);
-    // nextSunday.setMinutes(nextSunday.getMinutes() - nextSunday.getTimezoneOffset());
-
-    // const endDay = new Date(nextSunday);
-    // endDay.setDate(endDay.getDate() + numOfWeeks * 7);
 
     const [dataCache, setDataCache] = useState([]);
 
@@ -52,7 +38,8 @@ function Program() {
           }
           
         } catch (error) {
-          console.error('Error fetching data:', error);
+          console.log(error)
+          window.location = window.location;
           // throw error;
         }
     };
@@ -88,13 +75,12 @@ function Program() {
             const monday = new Date(from);
             monday.setDate(monday.getDate() + i * 7);
             monday.setHours(0, 0, 0, 0);
-            monday.setMinutes(monday.getMinutes() - monday.getTimezoneOffset());
+            // monday.setMinutes(monday.getMinutes() - monday.getTimezoneOffset());
     
-            // alert(new Date(monday) + 1)
             const nextSunday = new Date(monday);
             nextSunday.setDate(monday.getDate() + 6);
             nextSunday.setHours(23, 59, 59, 999);
-            nextSunday.setMinutes(nextSunday.getMinutes() - nextSunday.getTimezoneOffset());
+            // nextSunday.setMinutes(nextSunday.getMinutes() - nextSunday.getTimezoneOffset());
 
             weeks.push(
                 <div className="program" key={i}>
@@ -107,13 +93,27 @@ function Program() {
                             <p> 
                                 {FormatDate(fixture.fixtureDate)}
                                 {" "}
-                                {new Date(fixture.fixtureDate).toLocaleString("en-NZ", {
+                                {fixture.homeTeam != "Bye" && fixture.awayTeam != "Bye" && new Date(fixture.fixtureDate).toLocaleString("en-NZ", {
                                     hour: "numeric",
                                     minute: "2-digit",
                                     hour12: true,
                                 })}
                             </p>
-                            <p>{fixture.venue}</p>
+                            <p>{!fixture.homeScore && fixture.venue}</p>
+                            <p>
+                                {
+                                    fixture.homeScore && fixture.homeTeam != "Bye" && fixture.awayTeam != "Bye" && (
+                                    (fixture.homeTeam.includes("Seatoun") && fixture.homeScore > fixture.awayScore) && `Won ${fixture.homeScore} - ${fixture.awayScore}` ||
+                                    (fixture.homeTeam.includes("Seatoun") && fixture.awayScore > fixture.homeScore) && `Lost ${fixture.awayScore} - ${fixture.homeScore}` ||
+                                    (fixture.awayTeam.includes("Seatoun") && fixture.awayScore > fixture.homeScore) && `Won ${fixture.awayScore} - ${fixture.homeScore}` ||
+                                    (fixture.awayTeam.includes("Seatoun") && fixture.homeScore > fixture.awayScore) && `Lost ${fixture.homeScore} - ${fixture.awayScore}` ||
+                                    (fixture.homeScore == fixture.awayScore && fixture.penaltyScore && fixture.homeTeam.includes("Seatoun") && fixture.penaltyScore.match(/(\d+):(\d+)/)[1] > fixture.penaltyScore.match(/(\d+):(\d+)/)[2]) && `Won ${fixture.homeScore} - ${fixture.awayScore} ${fixture.penaltyScore}` ||
+                                    (fixture.homeScore == fixture.awayScore && fixture.penaltyScore && fixture.homeTeam.includes("Seatoun") && fixture.penaltyScore.match(/(\d+):(\d+)/)[2] > fixture.penaltyScore.match(/(\d+):(\d+)/)[1]) && `Lost ${fixture.homeScore} - ${fixture.awayScore} ${fixture.penaltyScore}` ||
+                                    (fixture.homeScore == fixture.awayScore && fixture.penaltyScore && fixture.awayTeam.includes("Seatoun") && fixture.penaltyScore.match(/(\d+):(\d+)/)[2] > fixture.penaltyScore.match(/(\d+):(\d+)/)[1]) && `Won ${fixture.homeScore} - ${fixture.awayScore} ${fixture.penaltyScore}` ||
+                                    (fixture.homeScore == fixture.awayScore && fixture.penaltyScore && fixture.awayTeam.includes("Seatoun") && fixture.penaltyScore.match(/(\d+):(\d+)/)[1] > fixture.penaltyScore.match(/(\d+):(\d+)/)[2]) && `Lost ${fixture.homeScore} - ${fixture.awayScore} ${fixture.penaltyScore}` ||
+                                    (fixture.homeScore == fixture.awayScore) && `Draw ${fixture.homeScore} - ${fixture.awayScore}`
+                                )}
+                            </p>
                         </div>
                     ))}
                 </div>
@@ -129,7 +129,7 @@ function Program() {
 
     return (
         <div id="programs">
-            {RenderWeeks(numOfWeeks)}
+            {dataCache.length > 0 ? RenderWeeks(numOfWeeks) : <Spinner size="lg" className="w-full" label="Loading data..." />}
         </div>
     )
 }
