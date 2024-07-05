@@ -18,5 +18,7 @@ Seatoun Fixtures is a web application that displays the season fixtures for seve
 ## Usage
 
 To view fixtures, navigate to the [Seatoun Fixtures](https://seatoun-fixtures.vercel.app/) home page.
+
 To view the program, navigate to the [Seatoun Program](https://seatoun-fixtures.vercel.app/program).
+
 To view standings, navigate to the [Seatoun Standings](https://seatoun-fixtures.vercel.app/standings).
