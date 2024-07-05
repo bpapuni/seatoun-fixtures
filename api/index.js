@@ -46,6 +46,21 @@ app.get("/api/v1/nearbygames", async (req, res) => {
     }
 });
 
+app.get("/api/v1/nearbyrugby", async (req, res) => {
+    // const comp = req.query.comp;
+    // const from = req.query.from;
+    // const to = req.query.to;
+
+    try {
+        const fixtures = await GetRLPFixtures();
+        res.json(fixtures);
+        // console.log(fixtures)
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
 app.get("/api/v1/gamestocsv", async (req, res) => {
     const from = new Date().toISOString();
     const to = "2024-12-01T00:00:00.000Z";
@@ -299,6 +314,62 @@ async function GetWakefieldFixtures() {
     }
 
     return fixtures.flat().filter(fixture => fixture.venue.includes("Wakefield Park")).sort((a, b) => new Date(a.fixtureDate) - new Date(b.fixtureDate));
+}
+
+async function GetRLPFixtures() {
+    const fixtures = [];
+    const competitionIds = {
+        "Premier Men": 8041,
+        // "Mens Capital Premier": 2701097689
+    }
+    
+
+    async function GetRLPFixturesForComp(compName) {
+        const body = {
+            "competitionId": competitionIds[compName],
+            "orgIds": "2145,9754,9181,9114,8672,8191,5476,8026,7835,7796,7745,7273,7060,3027,6582,6416,6341",
+            "from": "2024-01-01T00:00:00.000Z",
+            "to": "2024-12-31T00:00:00.000Z",
+            "gradeIds": "582318,158406,158407,158408,158410,158411,158412,158413",
+            // "sportId": "1",
+            // "seasonId": "2024",
+            // "gradeIds": "SENIORS",
+        };
+        
+        const response = await fetch("https://www.sporty.co.nz/api/1.0/competition/widget/filteredfixtures", {
+            headers: {
+                "content-type": "application/json; charset=UTF-8",
+            },
+            method: "POST",
+            body: JSON.stringify(body),
+        });
+        
+        const data = await response.json();
+        if (data) {
+            const match = data.map(fixture => ({
+                "compName": compName,
+                "homeTeam": fixture.HomeTeamNameAbbr,
+                "awayTeam": fixture.AwayTeamNameAbbr,
+                "fixtureDate": fixture.Date,
+                "venue": fixture.VenueName,
+                "map": `https://www.google.com/maps/search/?api=1&query=${fixture.LocationLat},${fixture.LocationLng}`,
+                "homeScore": fixture.HomeScore,
+                "awayScore": fixture.AwayScore,
+                // "penaltyScore": fixture.CometScore ? fixture.CometScore.match(/[\d():]+/g).join("") : null,
+                "homeLogo": `//sportsgroundproduction.blob.core.windows.net/cms/${fixture.HomeOrgLogo}`,
+                "awayLogo": `//sportsgroundproduction.blob.core.windows.net/cms/${fixture.AwayOrgLogo}`
+            }));
+            
+            return match;
+        }
+    }
+
+    for (let compName in competitionIds) {
+        fixtures.push(await GetRLPFixturesForComp(compName));
+    }
+    
+    return fixtures.flat().filter(fixture => fixture.venue.includes("Rugby League Park")).sort((a, b) => new Date(a.fixtureDate) - new Date(b.fixtureDate));
+    // return false
 }
 
 app.listen(3001, () => {

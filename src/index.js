@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import NearbyGames from './NearbyGames';
+import NearbyRugby from './NearbyRugby';
 import Program from './Program';
 import Standings from './Standings';
 import {NextUIProvider} from "@nextui-org/system";
@@ -10,7 +11,8 @@ import {NextUIProvider} from "@nextui-org/system";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <NextUIProvider>
-    {document.location.pathname == "/nearbygames" ? <NearbyGames /> : 
+  {document.location.pathname == "/nearbygames" ? <NearbyGames /> : 
+    document.location.pathname == "/nearbyrugby" ? <NearbyRugby /> : 
     document.location.pathname == "/program" ? <Program /> : 
     document.location.pathname == "/standings" ? <Standings /> : 
     <App />}
