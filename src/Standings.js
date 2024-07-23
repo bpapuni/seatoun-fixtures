@@ -8,8 +8,10 @@ function Standings() {
       "Women's Central League",
       "Men's Capital Premier",
       "Men's Capital 2",
-      "Women's Capital 1",
-      "Women's Capital 3",
+      "Women's Capital 1 - Round 1",
+      "Women's Capital 1 - Round 2",
+      "Women's Capital 3 - Round 1",
+      "Women's Capital 3 - Round 2",
       "Masters 1",
       "Masters Over 45's - 1",
       "Masters Over 45's - 2",
@@ -50,30 +52,29 @@ function Standings() {
 
     return (
       <> 
-            <div id="standings">
-              {dataCache.length > 0 ? comps.map((compName, i) => (
-                  <div key={i} className="standing">
-                      <hr />
-                      <h1>{compName}</h1>
-                      {dataCache.filter(team => team.comp == compName).map((standing, i) => (
+        <div id="standings">
+          {dataCache.length > 0 ? comps.map((compName, i) => (
+              <div key={i} className="standing">
+                  <hr />
+                  <h1>{compName}</h1>
+                  {dataCache.filter(team => team.comp == compName).map((standing, i) => (
+                      <div key={i}>
+                        {standing.team != "Bye" && 
                           <>
-                            {standing.team != "Bye" && 
-                              <div key={i}>
-                                <span className="team column">{standing.team.includes("Seatoun") ? <b>{standing.team}</b> : standing.team}</span>
-                                <span className="column">{standing.team.includes("Seatoun") ? <b>{standing.played}</b> : standing.played}</span>
-                                <span className="column">{standing.team.includes("Seatoun") ? <b>{standing.wins}</b> : standing.wins}</span>
-                                <span className="column">{standing.team.includes("Seatoun") ? <b>{standing.draws}</b> : standing.draws}</span>
-                                <span className="column">{standing.team.includes("Seatoun") ? <b>{standing.losses}</b> : standing.losses}</span>
-                                <span className="column">{standing.team.includes("Seatoun") ? <b>{standing.gd}</b> : standing.gd}</span>
-                                <span className="points column">{standing.team.includes("Seatoun") ? <b>{standing.pts}</b> : standing.pts}</span>
-                              </div>
-                            }
-                          </>
-                      ))}
-                  </div>
-              )) : <Spinner size="lg" className="w-full" label="Loading data..." />}
-          </div>
-        
+                            <span className="team column">{standing.team.includes("Seatoun") ? <b>{standing.team}</b> : standing.team}</span>
+                            <span className="column">{standing.team.includes("Seatoun") ? <b>{standing.played}</b> : standing.played}</span>
+                            <span className="column">{standing.team.includes("Seatoun") ? <b>{standing.wins}</b> : standing.wins}</span>
+                            <span className="column">{standing.team.includes("Seatoun") ? <b>{standing.draws}</b> : standing.draws}</span>
+                            <span className="column">{standing.team.includes("Seatoun") ? <b>{standing.losses}</b> : standing.losses}</span>
+                            <span className="column">{standing.team.includes("Seatoun") ? <b>{standing.gd}</b> : standing.gd}</span>
+                            <span className="points column">{standing.team.includes("Seatoun") ? <b>{standing.pts}</b> : standing.pts}</span>
+                            </>
+                        }
+                      </div>
+                  ))}
+              </div>
+          )) : <Spinner size="lg" className="w-full" label="Loading data..." />}
+        </div>
       </>        
     )
 }
