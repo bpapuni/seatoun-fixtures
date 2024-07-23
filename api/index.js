@@ -202,8 +202,8 @@ async function GetSeatounStandings(from, to) {
         "Masters Over 45's - 2":  2702495303,           // Seatoun Originals
         "Men's Capital Premier":  2701097689,           // Seatoun AFC
         "Men's Capital 2": 2701097873,                  // Seatoun AFC Reserves
-        "Women's Capital 1": 2702664070,                // Seatoun AFC Women Shanties
-        "Women's Capital 3": 2702664313,                // Seatoun AFC Women Seagals
+        "Women's Capital 1": [ 2702664070, 2707939554 ],                // Seatoun AFC Women Shanties
+        "Women's Capital 3": [ 2702664313, 2707940071 ],                // Seatoun AFC Women Seagals
         "Women's Central League": [ 2700992533, 2700849949 ],           // Seatoun Association Football Club | WCL && Kelly Cup
     }
 
