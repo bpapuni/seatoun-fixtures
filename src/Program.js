@@ -4,8 +4,8 @@ import './styles/program.css';
 import {Spinner} from "@nextui-org/react";
 
 function Program() {
-    const from = "2024-03-25T00:00:00.000Z";
-    const to = "2024-09-09T00:00:00.000Z";
+    const from = "2025-03-25T00:00:00.000Z";
+    const to = "2025-09-09T00:00:00.000Z";
 
     const numOfWeeks = Math.floor((new Date(to) - new Date(from)) / (1000 * 60 * 60 * 24 * 7));
 

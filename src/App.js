@@ -5,20 +5,19 @@ import './App.css';
 import {Accordion, AccordionItem, Spinner} from "@nextui-org/react";
 
 function App() {
-  const year = 2024;
+  const year = 2025;
   const comps = [
-    "Women's Central League",
-    "Men's Capital Premier",
-    "Men's Capital 2",
+    "Women's Capital Premier",
+    "Men's Central League 2",
+    "Men's Capital 1",
     "Women's Capital 1",
     "Women's Capital 3",
     "Masters 1",
     "Masters Over 45's - 1",
-    "Masters Over 45's - 2",
   ]
 
-  const from = "2024-03-01T00:00:00.000Z";
-  const to = "2024-12-01T00:00:00.000Z";
+  const from = "2025-03-01T00:00:00.000Z";
+  const to = "2025-12-01T00:00:00.000Z";
   // const from = `${year}-03-01T00:00:00.000Z`;
   // const to = `${year + 1}-03-01T00:00:00.000Z`;
   

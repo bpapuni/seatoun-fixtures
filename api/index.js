@@ -110,14 +110,30 @@ async function GetSeatounFixtures(from, to, compName) {
     const competitionIds = {
         // "Kate Sheppard Cup": 2630433561,             // Seatoun Association Football Club NOT READY
         // "Kelly Cup": 2700849949,                     // Seatoun Association Football Club
-        "Masters 1" : 2702491229,                       // Seatoun AFC Gulls
-        "Masters Over 45's - 1":  2702494160,           // Seatoun Vorstermans Architects 99s
-        "Masters Over 45's - 2":  2702495303,           // Seatoun Originals
-        "Men's Capital Premier":  2701097689,           // Seatoun AFC
-        "Men's Capital 2": 2701097873,                  // Seatoun AFC Reserves
-        "Women's Capital 1": [ 2702664070, 2707939554 ],                // Seatoun AFC Women Shanties
-        "Women's Capital 3": [ 2702664313, 2707940071 ],                // Seatoun AFC Women Seagals
-        "Women's Central League": [ 2700992533, 2700849949 ],           // Seatoun Association Football Club | WCL && Kelly Cup
+
+        // "Masters 1" : 2702491229,                       // Seatoun AFC Gulls
+        "Masters 1" : 2714715917,                       // Seatoun AFC Gulls
+        
+        // "Masters Over 45's - 1":  2702494160,           // Seatoun Vorstermans Architects 99s
+        "Masters Over 45's - 1":  2714716021,           // Seatoun Vorstermans Architects 99s, Seatoun Originals
+
+        // "Masters Over 45's - 2":  2702495303,           // Seatoun Originals
+        // "Masters Over 45's - 1":  2717373766,           // Seatoun Originals
+
+        // "Men's Capital Premier":  2701097689,           // Seatoun AFC
+        "Men's Central League 2":  2714716117,           // Seatoun AFC
+
+        // "Men's Capital 2": 2701097873,                  // Seatoun AFC Reserves
+        "Men's Capital 1": 2714716260,                  // Seatoun AFC Reserves
+
+        // "Women's Capital 1": [ 2702664070, 2707939554 ],                // Seatoun AFC Women Shanties
+        "Women's Capital 1": 2714716497,                // Seatoun AFC Women Shanties
+
+        // "Women's Capital 3": [ 2702664313, 2707940071 ],                // Seatoun AFC Women Seagals
+        "Women's Capital 3": 2714716557,                // Seatoun AFC Women Seagals
+
+        // "Women's Central League": [ 2700992533, 2700849949 ],           // Seatoun Association Football Club | WCL && Kelly Cup
+        "Women's Capital Premier": 2714716637,           // Seatoun Association Football Club | WCL && Kelly Cup
     }
 
     async function GetSeatounFixturesForComp(compId) {
@@ -127,8 +143,8 @@ async function GetSeatounFixtures(from, to, compName) {
             "from": from,
             "to": to,            
             "sportId": "1",
-            "seasonId": "2024",
-            "gradeIds": "SENIORS",
+            "seasonId": "2025",
+            // "gradeIds": "SENIORS",
         };
         
         const response = await fetch("https://www.capitalfootball.org.nz/api/1.0/competition/cometwidget/filteredfixtures", {
