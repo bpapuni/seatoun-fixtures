@@ -127,10 +127,10 @@ async function GetSeatounFixtures(from, to, compName) {
         "Men's Capital 1": 2714716260,                  // Seatoun AFC Reserves
 
         // "Women's Capital 1": [ 2702664070, 2707939554 ],                // Seatoun AFC Women Shanties
-        "Women's Capital 1": 2714716497,                // Seatoun AFC Women Shanties
+        "Women's Capital 1": 2718023880,                // Seatoun AFC Women Shanties
 
         // "Women's Capital 3": [ 2702664313, 2707940071 ],                // Seatoun AFC Women Seagals
-        "Women's Capital 3": 2714716557,                // Seatoun AFC Women Seagals
+        "Women's Capital 3": 2718025064,                // Seatoun AFC Women Seagals
 
         // "Women's Central League": [ 2700992533, 2700849949 ],           // Seatoun Association Football Club | WCL && Kelly Cup
         "Women's Capital Premier": 2714716637,           // Seatoun Association Football Club | WCL && Kelly Cup
