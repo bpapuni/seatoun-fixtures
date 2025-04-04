@@ -217,9 +217,9 @@ async function GetSeatounStandings(from, to) {
         "Masters Over 45's - 1":  2714716021,           // Seatoun Originals, Seatoun Vorstermans Architects 99s
         "Men's Central League 2":  2714716117,           // Seatoun AFC
         "Men's Capital 1": 2714716260,                  // Seatoun AFC Reserves
-        "Women's Capital 1 - Round 1": 2714716497,                // Seatoun AFC Women Shanties
+        "Women's Capital 1 - Round 1": 2718023880,                // Seatoun AFC Women Shanties
         // "Women's Capital 1 - Round 2": 2707939554,                // Seatoun AFC Women Shanties
-        "Women's Capital 3 - Round 1": 2714716557,                // Seatoun AFC Women Seagals
+        "Women's Capital 3 - Round 1": 2718025064,                // Seatoun AFC Women Seagals
         // "Women's Capital 3 - Round 2": 2707940071,                // Seatoun AFC Women Seagals
         "Women's Capital Premier": 2714716637,           // Seatoun Association Football Club | WCL && Kelly Cup
     }
